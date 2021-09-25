@@ -1,0 +1,6 @@
+title Creating a new note in Single Page App
+
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+Server-->Browser: {"message":"note created"}
+
+note right of Browser: JavaScript handles the data\nreturned from the POST request\n

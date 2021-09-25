@@ -1,0 +1,14 @@
+title Single Page App
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server-->Browser: spa HTML file
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server-->Browser: CSS file
+
+Browser->+Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+Server-->+Browser: spa.js file
+Browser->-Server: spa.js requests data.json
+Server-->-Browser: [{"content":"Text","date":"2021-09-25T14:33:07.027Z"}]
+note right of Browser: data.json
+note right of Browser: JavaScript processes the data and\ndisplays it on the page
