@@ -1,0 +1,25 @@
+title Creating a new note on the page
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server-->Browser: Ok, here's your markup
+note right of Browser: notes.html 
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server-->Browser: new_note
+
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server-->Browser: Responds with a css file
+note right of Browser: main.css
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+Server-->Browser: Sure!
+note right of Browser: main.js
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server-->Browser: [{"content":"Hello World!","date":"2021-09-25T14:13:12.682Z"}]
+note right of Browser: data.json
+
+note right of Browser: JavaScript starts executing and displaying\nthe data on the page
+
+
