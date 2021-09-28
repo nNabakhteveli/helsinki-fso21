@@ -1,19 +1,22 @@
 import React, { useState } from 'react'
 
+const Button = ({ handler, text }) => <button onClick={handler}>{text}</button>
 
-const App = (props) => {
+const App = () => {
    const [counter, setCounter] = useState(0);
-   const handleClick = () => {
-      setCounter(counter + 10);
-   }
+   const increment = () => setCounter(counter + 10);
+   const decrement = () => setCounter(counter - 5);
+   const setZero = () => setCounter(0);
 
    return (
       <div>
-         <p>Hi</p>
+         <h1>Click counter</h1>
          <h2>{counter}</h2>
-         <button onClick={handleClick}>Increment</button>
+         <Button handler={increment} text="Increment" />
+         <Button handler={decrement} text="Decrement" />
+         <Button handler={setZero} text="Zero" />
       </div>
-   )
+   );
 }
 
 export default App
