@@ -38,8 +38,7 @@ const App = () => {
    const voteAnecdote = () => {
       let votesInstance = {...votes};
       votesInstance[selected]++;
-      let arr = Object.entries(votesInstance);
-      let highestNum = votes[mostVoted];
+      let arr = Object.entries(votesInstance), highestNum = votes[mostVoted];
 
       for(const i of arr) {
          if(i[1] > highestNum) {
