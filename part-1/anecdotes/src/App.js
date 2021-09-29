@@ -37,23 +37,19 @@ const App = () => {
 
    const voteAnecdote = () => {
       let votesInstance = {...votes};
-      checkMostRated();
       votesInstance[selected]++;
+      let arr = Object.entries(votesInstance);
+      let highestNum = votes[mostVoted];
+
+      for(const i of arr) {
+         if(i[1] > highestNum) {
+            highestNum = +i[1];
+            setMostVoted(+i[0]);
+         }         
+      }
       setVotes({...votesInstance});
    }
 
-   const checkMostRated = () => {
-      let highestNum = 0, arr = Object.entries({...votes});
-     
-      for(let i = 0; i < arr.length; i++) {
-         if(arr[i][1] > highestNum) {
-            highestNum = arr[i][1];
-            setMostVoted(arr[i][0]);
-         }
-      }
-   }
-   
-   
    return (
       <div>
          <h1>Anecdote of the day</h1>
@@ -64,7 +60,7 @@ const App = () => {
          <button onClick={selectRandom}>Next anecdote</button>
 
          <h1>Anecdote with most votes</h1>
-         <p>{anecdotes[mostVoted]}</p>
+         <p> {anecdotes[mostVoted]}</p>
       </div>
    )
 }
