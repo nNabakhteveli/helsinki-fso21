@@ -11,29 +11,26 @@ const SingleDescription = ({ arr }) => {
 			<ul>
 				{Object.entries(arr.languages).map(value => <li key={value[0]}>{value[1]}</li>)}
 			</ul>
-			<img src={arr.flags.png} width={120} alt="Flag"></img>
+			<img src={arr.flags.png} width={120} alt="Flag" />
 		</div>
 	);
 }
 
 const HandleFilter = ({ arr, input }) => {
+	console.log(arr);
 	let res = [];
 	for(const i of arr) {
 		if(arr.length > 10) {
-			return "\nToo many matches, specify another filter"
-		} else if(arr.length <= 10 && arr.length > 1) {
-			res.push(i);
+			return <p>Too many matches, specify another filter</p>
 		} else if(input.length === 0) return null;
+		res.push(<p key={i.altSpellings[0]}>{i.name.common}</p>);
 	}
 
 	for(const j of arr) {
-		if(input === j.name.common) {
-			console.log(j.name.common, j);
-			return <SingleDescription arr={j} />		
-		}
+		if(input === j.name.common || arr.length === 1) return <SingleDescription arr={j} />		
 	}
 
-	return res.map(value => <p key={value.altSpellings[0]}>{value.name.common}</p>)
+	return res;
 }
 
 const App = () => {
