@@ -39,7 +39,13 @@ const SingleDescription = ({ arr }) => {
 }
 
 const HandleFilter = ({ arr, input }) => {
-	let res = [], btn = [];
+	const [renderSingle, setRenderSingle] = useState(false);
+	const [single, setSingle] = useState([]);
+	let res = [];
+
+	useEffect(() => { 
+		setRenderSingle(false);
+	}, [arr]);
 
 	for(const i of arr) {
 		if(arr.length > 10) {
@@ -49,15 +55,19 @@ const HandleFilter = ({ arr, input }) => {
 		res.push(
 			<div key={i.altSpellings[0]}>
 				<p>{i.name.common}</p>
-				<button onClick={() => btn.push(i)}>show</button>
+				<button onClick={() => { setRenderSingle(true); setSingle(i) }}>show</button>
 			</div>
 		);
 	}
 
 	for(const j of arr) 
-		if(input === j.name.common || arr.length === 1) return <SingleDescription arr={j} />		
+		if(input === j.name.common || arr.length === 1) return <SingleDescription arr={j} />	
 	
-	return res;
+	if(!renderSingle) {
+		return res;
+	} else {
+		return <SingleDescription arr={single} />
+	}	
 }
 
 const App = () => {
