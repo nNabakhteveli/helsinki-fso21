@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const get = () => {
+const getData = () => {
     return axios.get('http://localhost:3001/persons').then(response => response.data);
 }
 
-const add = (object) => {
+const addData = (object) => {
     axios.post("http://localhost:3001/persons", object);
 }
 
-const deleteUser = (name, id) => {
+const deleteContact = (name, id) => {
 	let result = window.confirm(`Delete ${name}?`)
 	
 	if(result) {
@@ -17,10 +17,10 @@ const deleteUser = (name, id) => {
     }
 }
 
-const updateUserData = (id, newData) => {
+const updateContactData = (id, newData) => {
     axios.put(`http://localhost:3001/persons/${id}`, newData);
 }
 
-const exportsObj = { get, add, deleteUser, updateUserData }; 
+const exportsObj = { getData, addData, deleteContact, updateContactData }; 
 
 export default exportsObj;

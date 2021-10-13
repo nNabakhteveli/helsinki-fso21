@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 const DisplayPeople = ({ arr }) => arr.map(person => <div key={person.id}>
-		<p>{person.name} - {person.number}</p><button onClick={(e) => DBHandler.deleteUser(person.name, person.id) }>Delete</button>
+		<p>{person.name} - {person.number}</p><button onClick={(e) => DBHandler.deleteContact(person.name, person.id) }>Delete</button>
 	</div>)
 
 
@@ -39,7 +39,7 @@ const App = () => {
 			setFilter(response.data);
 		})
 
-		DBHandler.get().then(response => {
+		DBHandler.getData().then(response => {
 			setPersons(response);
 			setFilter(response);
 		});
@@ -62,7 +62,7 @@ const App = () => {
 			if(newName === i.name) {
 				let result = window.confirm(`${i.name} is already added to phonebook, replace the old number with a new one?`)
 				if(result) {
-					DBHandler.updateUserData(i.id, {...i, number: newNumber})
+					DBHandler.updateContactData(i.id, {...i, number: newNumber})
 					window.location.reload();
 					return;
 				} else 
@@ -70,7 +70,7 @@ const App = () => {
 				
 			} 
 		}
-		DBHandler.add({ name: newName, number: newNumber });
+		DBHandler.addData({ name: newName, number: newNumber });
 		
 		let updatedArr = [...persons, { name: newName, number: newNumber, id: persons.length + 1 }];
 		setPersons(updatedArr);
