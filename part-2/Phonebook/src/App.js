@@ -4,22 +4,19 @@ import axios from 'axios'
 
 
 const DisplayPeople = ({ arr }) => arr.map(person => <div key={person.id}>
-		<p>{person.name} {person.number}</p><button onClick={() => DBHandler.deleteUser(person.name, person.id)}>Delete</button>
+		<p>{person.name} - {person.number}</p><button onClick={(e) => DBHandler.deleteUser(person.name, person.id) }>Delete</button>
 	</div>)
 
 
-const PersonForm = props => {
-	const submitHandler = () => {
-		DBHandler.add({ name: props.name, number: props.number });
-		props.submit();
-	}
+const PersonForm = props => {	
 	return(
-		<form onSubmit={submitHandler}>
+		<form onSubmit={props.submit}>
 			<div>
-				name: <input value={props.name} onChange={props.nameHandler} />
+				Name: <input value={props.name} onChange={props.nameHandler} required />
 			</div>
+			<br />
 			<div>
-				number: <input value={props.number} onChange={props.numberHandler} />
+				Number: <input value={props.number} onChange={props.numberHandler} required />
 			</div>
 			<div>
 			  <button type="submit">add</button>
@@ -31,8 +28,8 @@ const PersonForm = props => {
 const Filter = ({ filterHandler }) => <> Filter with name <input onChange={filterHandler} /> </>
 
 const App = () => {
-	const [ persons, setPersons ] = useState([]); 
-	const [ newName, setNewName ] = useState('');
+	const [persons, setPersons] = useState([]); 
+	const [newName, setNewName] = useState('');
 	const [newNumber, setNewNumber] = useState('');
 	const [filterArr, setFilter] = useState(persons);
 
@@ -61,14 +58,20 @@ const App = () => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-
 		for(const i of persons) {
 			if(newName === i.name) {
-				alert(`${i.name} is already added to phonebook`);
-				return;
+				let result = window.confirm(`${i.name} is already added to phonebook, replace the old number with a new one?`)
+				if(result) {
+					DBHandler.updateUserData(i.id, {...i, number: newNumber})
+					window.location.reload();
+					return;
+				} else {
+					return;
+				}
 			} 
 		}
-
+		DBHandler.add({ name: newName, number: newNumber });
+		
 		let updatedArr = [...persons, { name: newName, number: newNumber, id: persons.length + 1 }];
 		setPersons(updatedArr);
 		setFilter(updatedArr);
@@ -83,7 +86,7 @@ const App = () => {
 			<PersonForm submit={handleSubmit} 
 				name={newName} number={newNumber} 
 				nameHandler={(e) => setNewName(e.target.value)} 
-				numberHandler={(e) => setNewNumber(e.target.value)} 
+				numberHandler={(e) => setNewNumber(e.target.value)}
 			/>
 
 		 	<h2>Numbers</h2>

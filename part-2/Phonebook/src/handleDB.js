@@ -12,11 +12,15 @@ const deleteUser = (name, id) => {
 	let result = window.confirm(`Delete ${name}?`)
 	
 	if(result) {
-        axios.delete(`http://localhost:3001/persons/${id}`)
+        axios.delete(`http://localhost:3001/persons/${id}`);
         window.location.reload();
     }
 }
 
-const exportsObj = { get, add, deleteUser }; 
+const updateUserData = (id, newData) => {
+    axios.put(`http://localhost:3001/persons/${id}`, newData);
+}
+
+const exportsObj = { get, add, deleteUser, updateUserData }; 
 
 export default exportsObj;
