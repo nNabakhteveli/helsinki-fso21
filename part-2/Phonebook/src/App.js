@@ -5,8 +5,12 @@ import axios from 'axios';
 const DisplayPeople = ({ arr }) => arr.map(person => <p key={person.id}>{person.name} {person.number}</p>)
 
 const PersonForm = props => {
+	const submitHandler = () => {
+		axios.post("http://localhost:3001/persons", { name: props.name, number: props.number });
+		props.submit();
+	}
 	return(
-		<form onSubmit={props.submit}>
+		<form onSubmit={submitHandler}>
 			<div>
 				name: <input value={props.name} onChange={props.nameHandler} />
 			</div>
@@ -18,6 +22,7 @@ const PersonForm = props => {
 			</div>
 	 	</form>
 	);
+
 }
 
 const Filter = ({ filterHandler }) => <> Filter with name <input onChange={filterHandler} /> </>
@@ -48,7 +53,7 @@ const App = () => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		
+
 		for(const i of persons) {
 			if(newName === i.name) {
 				alert(`${i.name} is already added to phonebook`);
