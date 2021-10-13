@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
+import DBHandler from './handleDB.js'
+import axios from 'axios'
 
 
-const DisplayPeople = ({ arr }) => arr.map(person => <p key={person.id}>{person.name} {person.number}</p>)
+const DisplayPeople = ({ arr }) => arr.map(person => <div key={person.id}>
+		<p>{person.name} {person.number}</p><button onClick={() => DBHandler.deleteUser(person.name, person.id)}>Delete</button>
+	</div>)
+
 
 const PersonForm = props => {
 	const submitHandler = () => {
-		axios.post("http://localhost:3001/persons", { name: props.name, number: props.number });
+		DBHandler.add({ name: props.name, number: props.number });
 		props.submit();
 	}
 	return(
@@ -22,7 +26,6 @@ const PersonForm = props => {
 			</div>
 	 	</form>
 	);
-
 }
 
 const Filter = ({ filterHandler }) => <> Filter with name <input onChange={filterHandler} /> </>
@@ -38,6 +41,11 @@ const App = () => {
 			setPersons(response.data);
 			setFilter(response.data);
 		})
+
+		DBHandler.get().then(response => {
+			setPersons(response);
+			setFilter(response);
+		});
 	}, []);
 
 	
