@@ -65,9 +65,9 @@ const App = () => {
 					DBHandler.updateUserData(i.id, {...i, number: newNumber})
 					window.location.reload();
 					return;
-				} else {
+				} else 
 					return;
-				}
+				
 			} 
 		}
 		DBHandler.add({ name: newName, number: newNumber });
