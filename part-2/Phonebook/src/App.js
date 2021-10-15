@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DBHandler from './handleDB.js'
 import axios from 'axios'
 
+// Error, update or success notification handlers
 const Notification = ({ message, username }) => {
 	const style = {
 		"border": "3px solid green",
@@ -34,12 +35,13 @@ const Notification = ({ message, username }) => {
 }
 
 
-const DisplayPeople = ({ arr }) => arr.map(person => <div key={person.id}>
+const DisplayPeople = ({ arr }) => arr.map(person => 
+	<div key={person.id}>
 		<p>{person.name} - {person.number}</p><button onClick={(e) => DBHandler.deleteContact(person.name, person.id) }>Delete</button>
 	</div>)
 
 
-const PersonForm = props => {	
+const AddNewContact = props => {	
 	return(
 		<form onSubmit={props.submit}>
 			<div>
@@ -90,13 +92,14 @@ const App = () => {
 	
 	const handleSubmit = e => {
 		e.preventDefault();
+		// Checking for contact duplication
 		for(const i of persons) {
 			if(newName === i.name) {
 				let result = window.confirm(`${i.name} is already added to phonebook, replace the old number with a new one?`)
 				if(result) {
 					DBHandler.updateContactData(i.id, {...i, number: newNumber}).then(() => {
 						setStatus({ response: "update", username: "" });
-						window.location.reload();	
+						window.location.reload(); // Reloading in order to see the changes in the database
 					}).catch(() => {
 						setStatus({ response: "error", username: i.name });
 					});
@@ -106,6 +109,7 @@ const App = () => {
 				
 			} 
 		}
+		// If the name isn't duplicate, then add a new contact
 		DBHandler.addData({ name: newName, number: newNumber });
 		setStatus({ response: "success", username: "" });
 
@@ -121,9 +125,9 @@ const App = () => {
 			<Filter filterHandler={filterPeople} />
 
 			<h2>Add a new</h2>
-			<PersonForm submit={handleSubmit} 
+			<AddNewContact submit={handleSubmit}
 				name={newName} number={newNumber} 
-				nameHandler={(e) => setNewName(e.target.value)} 
+				nameHandler={(e) => setNewName(e.target.value)}
 				numberHandler={(e) => setNewNumber(e.target.value)}
 			/>
 
