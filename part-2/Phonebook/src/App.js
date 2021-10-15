@@ -2,6 +2,37 @@ import React, { useState, useEffect } from 'react'
 import DBHandler from './handleDB.js'
 import axios from 'axios'
 
+const Notification = ({ message, username }) => {
+	const style = {
+		"border": "3px solid green",
+		"fontSize": "1.150rem",
+		"padding": "5px"
+	}
+
+	if(message === "success") {
+		return (
+			<div style={style}>
+				<p>Contact has been added successfuly!</p>
+			</div>
+		);
+	} else if(message === "update") {
+		return (
+			<div style={style}>
+				<p>This contact has been updated!</p>
+			</div>
+		);
+	} else if(message === "error") {
+		style.border = "3px solid red";
+		style.color = "red";
+		return (
+			<div style={style}>
+				<p>Information of {username} has already been removed from server</p>
+			</div>
+		);
+	}
+	return null;
+}
+
 
 const DisplayPeople = ({ arr }) => arr.map(person => <div key={person.id}>
 		<p>{person.name} - {person.number}</p><button onClick={(e) => DBHandler.deleteContact(person.name, person.id) }>Delete</button>
@@ -32,6 +63,7 @@ const App = () => {
 	const [newName, setNewName] = useState('');
 	const [newNumber, setNewNumber] = useState('');
 	const [filterArr, setFilter] = useState(persons);
+	const [status, setStatus] = useState({response: "", username: ""});
 
 	useEffect(() => {
 		axios.get('http://localhost:3001/persons').then(response => {
@@ -55,15 +87,19 @@ const App = () => {
 		}
 		setFilter(array);
 	}
-
+	
 	const handleSubmit = e => {
 		e.preventDefault();
 		for(const i of persons) {
 			if(newName === i.name) {
 				let result = window.confirm(`${i.name} is already added to phonebook, replace the old number with a new one?`)
 				if(result) {
-					DBHandler.updateContactData(i.id, {...i, number: newNumber})
-					window.location.reload();
+					DBHandler.updateContactData(i.id, {...i, number: newNumber}).then(() => {
+						setStatus({ response: "update", username: "" });
+						window.location.reload();	
+					}).catch(() => {
+						setStatus({ response: "error", username: i.name });
+					});
 					return;
 				} else 
 					return;
@@ -71,7 +107,8 @@ const App = () => {
 			} 
 		}
 		DBHandler.addData({ name: newName, number: newNumber });
-		
+		setStatus({ response: "success", username: "" });
+
 		let updatedArr = [...persons, { name: newName, number: newNumber, id: persons.length + 1 }];
 		setPersons(updatedArr);
 		setFilter(updatedArr);
@@ -79,6 +116,7 @@ const App = () => {
 
 	return (
 		<div>
+			<Notification message={status.response} username={status.username} />
 			<h2>Phonebook</h2>
 			<Filter filterHandler={filterPeople} />
 

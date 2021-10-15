@@ -17,9 +17,7 @@ const deleteContact = (name, id) => {
     }
 }
 
-const updateContactData = (id, newData) => {
-    axios.put(`http://localhost:3001/persons/${id}`, newData);
-}
+const updateContactData = (id, newData) => axios.put(`http://localhost:3001/persons/${id}`, newData);
 
 const exportsObj = { getData, addData, deleteContact, updateContactData }; 
 
