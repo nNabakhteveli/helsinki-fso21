@@ -37,6 +37,7 @@ const getAnecdote = (stateData, votedAnecdoteId) => {
     if(i.id === votedAnecdoteId) {
       i.votes += 1;
       sortArray(stateData);
+      stateData.votedAnecdote = i;
       return stateData;
     }
   }
@@ -45,6 +46,7 @@ const getAnecdote = (stateData, votedAnecdoteId) => {
 
 const reducer = (state = initialState, action) => {
   const stateInstance = [ ...state ];
+  console.log(action);
 
   switch(action.type) {
     case "VOTE":
