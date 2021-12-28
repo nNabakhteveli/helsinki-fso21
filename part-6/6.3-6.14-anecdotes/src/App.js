@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Notification from './components/Notification'
 import { getId } from './reducers/anecdoteReducer'
 import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
 
 
 const App = () => {
@@ -10,6 +11,14 @@ const App = () => {
 
   if(filterData == 0) filterData = anecdotes;
   
+  useEffect(async () => {
+    const response = await axios.get('http://localhost:3001/anecdotes');
+    dispatch({
+      type:"INIT_DATA",
+      data: response
+    })
+  }, []);
+
   const dispatch = useDispatch()
   
   const handleFilter = event => {
@@ -38,13 +47,17 @@ const App = () => {
   const addAnecdote = event => {
     event.preventDefault();
 
+    const newAnecdoteData = {
+      content: event.target.anecdoteInput.value,
+      id: getId(),
+      votes: 0
+    }
+
+    axios.post('http://localhost:3001/anecdotes', newAnecdoteData);
+    
     dispatch({ 
       type: "ADD_ANECDOTE", 
-      data: {
-        content: event.target.anecdoteInput.value,
-        id: getId(),
-        votes: 0
-      }
+      data: newAnecdoteData
     })
   }
 
