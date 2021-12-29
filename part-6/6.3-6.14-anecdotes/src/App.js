@@ -11,6 +11,8 @@ const App = () => {
 
   if(filterData == 0) filterData = anecdotes;
   
+  const dispatch = useDispatch()
+  
   useEffect(async () => {
     const response = await axios.get('http://localhost:3001/anecdotes');
     dispatch({
@@ -19,7 +21,6 @@ const App = () => {
     })
   }, []);
 
-  const dispatch = useDispatch()
   
   const handleFilter = event => {
     let arr = anecdotes.filter(value => value.content.includes(event.target.value));
