@@ -1,11 +1,11 @@
 import React from 'react';
 
 
-const SinglePartRenderer = ({course, childKey}: {course: CoursePart, childKey: number}): JSX.Element => {
+const SinglePartRenderer = ({course}: {course: CoursePart}): JSX.Element => {
    switch(course.type) {
       case 'normal':
          return ( 
-            <div key={childKey}>
+            <div>
                <p><b>{course.name}</b> {course.exerciseCount}</p>
                <i>Description: {course.description}</i>
             </div>
@@ -13,7 +13,7 @@ const SinglePartRenderer = ({course, childKey}: {course: CoursePart, childKey: n
       
       case "groupProject":
          return(
-            <div key={childKey}>
+            <div>
                <p><b>{course.name}</b> {course.exerciseCount}</p>
                <p>Group project count: {course.groupProjectCount}</p>
             </div>
@@ -21,7 +21,7 @@ const SinglePartRenderer = ({course, childKey}: {course: CoursePart, childKey: n
 
       case 'submission':
          return(
-            <div key={childKey}>
+            <div>
                <p><b>{course.name}</b> {course.exerciseCount}</p>
                <i>Description: {course.description}</i>
                <p>Link: {course.exerciseSubmissionLink}</p>
@@ -30,11 +30,11 @@ const SinglePartRenderer = ({course, childKey}: {course: CoursePart, childKey: n
 
       case "special": 
          return(
-            <div key={childKey}>
+            <div>
                <p><b>{course.name}</b> {course.exerciseCount}</p>
                <i>Description: {course.description}</i>
                <p>Requirements:</p>
-               <ul key={childKey}>
+               <ul>
                   {course.requirements.map((value, i) => <li key={i}>{value}</li>)}
                </ul>
             </div>
@@ -45,11 +45,6 @@ const SinglePartRenderer = ({course, childKey}: {course: CoursePart, childKey: n
 
 const Total = ({ totalExercises }: { totalExercises: number }): JSX.Element => <p>Number of exercises{` ${totalExercises}`}</p>;
 
-
-interface CourseParts {
-   name: string,
-   exerciseCount: number
-}
 
 interface CoursePartBase {
    name: string;
@@ -86,7 +81,7 @@ const Content = ({ arr }: { arr: Array<CoursePart> }): JSX.Element => {
    return (
       <div>
          {
-            arr.map(value => <SinglePartRenderer course={value} childKey={Math.random() * 500000} />)
+            arr.map(value => <SinglePartRenderer course={value} key={Math.random() * 500000} />)
          }
       </div>
    );
