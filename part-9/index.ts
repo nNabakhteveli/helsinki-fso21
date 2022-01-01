@@ -1,8 +1,12 @@
 import express from 'express';
 import bmiCalculator from './bmiCalculator';
-
+import calculateExercises from './exerciseCalculator';
+import axios from 'axios';
 
 const app = express();
+
+app.use(express.json());
+
 
 app.get('/bmi', (req, res) => {
     if(Object.keys(req.query).length === 2) {
@@ -17,6 +21,24 @@ app.get('/bmi', (req, res) => {
         res.json({
             error: "malformatted parameters"
         });
+    }
+})
+
+const body = {
+    "daily_exercises": [1, 0, 2, 0, 3, 0, 2.5],
+    "target": 2.5
+};
+
+axios.post("http://localhost:3003/post-e", body);
+
+app.post("/post-e", (req, res) => {
+    if(Object.keys(req.body).length !== 2){
+        res.json({
+            error: "malformatted parameters"
+        });
+    } else {
+        const arr = req.body.daily_exercises, target = req.body.target;
+        res.json(calculateExercises(arr, target));
     }
 })
 
