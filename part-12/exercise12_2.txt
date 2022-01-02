@@ -1,0 +1,9 @@
+Script started on 2022-01-02 17:32:53+04:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="190" LINES="50"]
+[?2004h]0;nika@pop-os: ~/Desktop/Dev[01;32mnika@pop-os[00m:[01;34m~/Desktop/Dev[00m$ docker run -it ubuntu bash[14Pecho "Hello"ls[Kscript[4Plsecho "Hello"docker run -it ubuntu bash
+[?2004l]0;root@1c8ba7dfe2f2: /root@1c8ba7dfe2f2:/# [K]0;root@1c8ba7dfe2f2: /root@1c8ba7dfe2f2:/# mkdir /usr/src/app
+]0;root@1c8ba7dfe2f2: /root@1c8ba7dfe2f2:/# touch /usr/src/app/index.js
+]0;root@1c8ba7dfe2f2: /root@1c8ba7dfe2f2:/# [Kexit
+[?2004h]0;nika@pop-os: ~/Desktop/Dev[01;32mnika@pop-os[00m:[01;34m~/Desktop/Dev[00m$ [?2004l
+exit
+
+Script done on 2022-01-02 17:33:29+04:00 [COMMAND_EXIT_CODE="0"]
